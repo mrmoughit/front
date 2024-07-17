@@ -1,0 +1,41 @@
+.main{
+
+    padding: 0;
+    padding-top: 10%;
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(#2b0c76, white);
+}
+
+.container{
+    position: relative;
+    padding: 1%;
+    padding-top: 80px;
+    margin-top: 5%;
+    height: 40%;
+    border-radius: 2%;
+}
+
+.btn
+{
+    margin-top: 10%;
+}
+.done__{
+    padding-top: 10%;
+}
+
+#status {
+    position: absolute;
+    color: rgb(4, 164, 4);
+    left: 50%;
+    transform: translateX(-50%) translateY(50%);
+
+}
+#status_ {
+    position: absolute;
+    color: rgb(255, 0, 0);
+    left: 50%;
+    transform: translateX(-50%) translateY(50%);
+
+}
