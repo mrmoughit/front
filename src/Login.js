@@ -11,7 +11,7 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await axios.post('http://10.13.9.3:3000/admin', {
+    await axios.post('http://10.13.10.6:3000/admin', {
         username: email,
         password: password
     })
@@ -31,12 +31,13 @@ const Login = () => {
     <div className="container mt-5 col-lg-3 col-md-7 col-sm-7 mx-auto mt-md-5 bg-light">
             <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="email">Email address</label>
+              <label htmlFor="email">Login</label>
               <input
+                required
                 type="text"
                 className="form-control"
                 id="email"
-                placeholder="Enter email"
+                placeholder="Login"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 />
@@ -45,6 +46,7 @@ const Login = () => {
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
+              required
                 type="password"
                 className="form-control"
                 id="password"
