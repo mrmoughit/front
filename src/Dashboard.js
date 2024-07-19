@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import Categorie from './forms/categorie';
+import Categorie from './forms/categorie1';
 import Level from './forms/Level';
 import Filliere from './forms/filliere'; 
 import Matiere from './forms/matiere'; 
