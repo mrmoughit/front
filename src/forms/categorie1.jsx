@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
 
-function StagiaireManager(){
+function Categorie(){
   const [stagiaires, setstagiaires] = useState([
     {
         name:"Zakaria Moumni",
@@ -75,22 +75,7 @@ function StagiaireManager(){
 
   return (
     <div>
-      <h1>stagiaire Manager</h1>
-      <div>
-        <label>Name:</label>
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-        
-        <label>Phone:</label>
-        <input type="text" value={phone} onChange={(e) => setphone(e.target.value)} />
-
-        <label>convocation:</label>
-        <input type="text" value={convocation} onChange={(e) => setconvocation(e.target.value)} />
-
-        <label>period:</label>
-        <input type="text" value={date} onChange={(e) => setdate(e.target.value)} />
-        <Button variant="primary" onClick={handleAdd}>Add</Button>
-        <Button variant="danger" onClick={() => setstagiaires([])}>Delete All</Button>
-      </div>
+      <h1>Categorie</h1>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -121,4 +106,4 @@ function StagiaireManager(){
   );
 };
 
-export default StagiaireManager;
+export default Categorie;
