@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
+import "./style.css"
+import axios from 'axios'
 
-function Categorie(){
+function StagiaireManager(){
   const [stagiaires, setstagiaires] = useState([
     {
         name:"Zakaria Moumni",
@@ -62,6 +64,22 @@ function Categorie(){
     setstagiaires(newstagiaires);
   };
 
+  const [state, setstate] = useState(false);
+  const [cat, setcat] = useState(false);
+  const handleSubmit = async (event) => {
+      event.preventDefault();
+      await axios.post('http://10.13.10.6:3000/categorie_add', {
+          name: cat,
+      })
+      .then(response => {
+          setstate(true)
+          console.log('cat added', response.data);
+      })
+      .catch(error => {
+          setstate(false)
+          console.log('add cat Failed')
+      })
+  }
   const handleModify = (index) => {
     console.log("index",index);
     const newstagiaires = [...stagiaires];
@@ -75,28 +93,27 @@ function Categorie(){
 
   return (
     <div>
-      <h1>Categorie</h1>
+      <h1>Categories</h1>
+      <div>
+        <label>Categorie Name:</label>
+        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+        <Button className='' variant="primary" onClick={handleAdd}>Add</Button>
+        <Button className='' variant="danger" onClick={() => setstagiaires([])}>Delete All</Button>
+      </div>
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>Name</th>
-            <th>Phone</th>
-            <th>Convocation</th>
-            <th>Period of stage</th>
-
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {stagiaires.map((stagiaire, index) => (
             <tr key={index}>
-              <td>{stagiaire.name}</td>
-              <td>{stagiaire.phone}</td>
-              <td>{stagiaire.convocation}</td>
-              <td>{stagiaire.date}</td>
-              <td>
+              <td className='td'>{stagiaire.name}</td>
+              <td className='td'>
                 <Button variant="warning" onClick={() => handleModify(index)}>Modify</Button>
-                <Button variant="danger" onClick={() => handleDelete(index)}>Delete</Button>
+                <Button variant="danger" onClick={() => handleDelete(index)}>Delete</Button> 
               </td>
             </tr>
           ))}
@@ -106,4 +123,4 @@ function Categorie(){
   );
 };
 
-export default Categorie;
+export default StagiaireManager;
