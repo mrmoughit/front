@@ -10,7 +10,7 @@ import Exams from './forms/exams';
 import ExamsNationaux from './forms/exams_nationaux'; 
 import ExamsRegionaux from './forms/exams_regionaux'; 
 import Admin_setting from './forms/admin_setting';
-import Loading from './forms/Loading';
+import Loading from './forms/loading';
 import './Dashboard.css'; 
 
 const Dashboard = () => {

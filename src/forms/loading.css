@@ -1,13 +1,38 @@
-.loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-  }
-  
-  .override {
-    display: block;
-    border-color: red;
-  }
-  
+body {
+  /* 
+  font-family: system-ui;
+  background: #f06d06;
+  color: white;
+  text-align: center;
+  */
+}
+
+.loader::after {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  content: "";
+  display: inline-block;
+  font-weight: 600;
+  font-size: 114px;
+  color: rgb(186, 216, 240);
+  animation-name: animatingtext;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+  color: green;
+  font-family: cursive;
+}
+
+@keyframes animatingtext {
+  0% { content: "L"; }
+  10% { content: "Lo"; }
+  20% { content: "Loa"; }
+  30% { content: "Load"; }
+  40% { content: "Loadi"; }
+  50% { content: "Loadin"; }
+  60% { content: "Loading"; }
+  70% { content: "Loading "; }
+  80% { content: "Loading ."; }
+  90% { content: "Loading .."; }
+  100% { content: "Loading ..."; }
+}
