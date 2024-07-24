@@ -9,7 +9,8 @@ import Exercice from './forms/exercice';
 import Exams from './forms/exams'; 
 import ExamsNationaux from './forms/exams_nationaux'; 
 import ExamsRegionaux from './forms/exams_regionaux'; 
-import Admin_setting from './forms/admin_setting'; 
+import Admin_setting from './forms/admin_setting';
+import Loading from './forms/Loading';
 import './Dashboard.css'; 
 
 const Dashboard = () => {
@@ -44,7 +45,7 @@ const Dashboard = () => {
             case 'admin setting':// eslint-disable-next-line 
                 return <Admin_setting />;
             default:
-                return 'Loading...';
+                return <Loading/>;
         }
     };
 
