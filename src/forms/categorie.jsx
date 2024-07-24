@@ -10,7 +10,7 @@ const Categorie = () => {
     const [cat, setcat] = useState(false);
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await axios.post('http://10.13.10.6:3000/categorie_add', {
+        await axios.post('http://localhost:3001/categorie_add', {
             name: cat,
         })
         .then(response => {
