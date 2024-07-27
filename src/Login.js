@@ -11,7 +11,7 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await axios.post('http://10.13.10.6:3000/admin', {
+    await axios.post('http://localhost:3001/admin', {
         username: email,
         password: password
     })

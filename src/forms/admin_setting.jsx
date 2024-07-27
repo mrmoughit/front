@@ -67,7 +67,7 @@ function AdminSetting() {
       return;
     }
     try {
-      await axios.post('http://localhost:3001/admin_update_password', {
+      await axios.post('http://localhost:3001//admin_update_password', {
         username: adminUsername,
         current_password: currentPassword,
         new_password: newPassword,

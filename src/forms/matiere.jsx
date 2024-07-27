@@ -1,111 +1,136 @@
-
-// import React, { useState } from 'react';
-import React, { useState } from 'react';
-import { Button, Table } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Button, Form, Row, Col } from 'react-bootstrap';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
-function Matiere() {
-  const [stagiaires, setstagiaires] = useState([
-    {
-        name:"Zakaria Moumni",
-        phone:"0609603674",
-        convocation:"yes",
-        date:"from 01/03/2023 at 31/03/2023",
-    },
-    {
-        name:"khalid HAMDANI",
-        phone:"0609603674",
-        convocation:"No",
-        date:"",
-    },
-    {
-        name:"Ahlam DHAIBI",
-        phone:"0609603674",
-        convocation:"yes",
-        date:"from 01/03/2023 at 31/03/2023",
-    },
-    {
-        name:"Aya TOUIL",
-        phone:"0688796574",
-        convocation:"yes",
-        date:"from 01/03/2023 at 31/03/2023",
-    },
-    {
-        name:"Ahlam DHAIBI",
-        phone:"0789083674",
-        convocation:"yes",
-        date:"from 01/03/2023 at 31/03/2023",
-    },
-    {
-        name:"Yassine WAHBI",
-        phone:"0789088974",
-        convocation:"No",
-        date:"",
-    },
+
+function AddMatiere() {
+  const [categories, setCategories] = useState([]);
+  const [levels, setLevels] = useState([]);
+  const [filieres, setFilieres] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedLevel, setSelectedLevel] = useState('');
+  const [selectedFiliere, setSelectedFiliere] = useState('');
+  const [newMatiereName, setNewMatiereName] = useState('');
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/categories')
+      .then(response => setCategories(response.data))
+      .catch(error => console.error('Error fetching categories:', error));
+  }, []);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      axios.get('http://localhost:3001/levels', {
+        params: { category_name: selectedCategory }
+      })
+        .then(response => setLevels(response.data))
+        .catch(error => console.error('Error fetching levels:', error));
+    } else {
+      setLevels([]);
+    }
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    if (selectedCategory && selectedLevel) {
+      axios.get('http://localhost:3001/filliere', {
+        params: {
+          category_name: selectedCategory,
+          level_name: selectedLevel,
+        }
+      })
+        .then(response => setFilieres(response.data))
+        .catch(error => console.error('Error fetching filieres:', error));
+    } else {
+      setFilieres([]);
+    }
+  }, [selectedLevel, selectedCategory]);
+
+  const handleAddMatiere = () => {
+    const category = categories.find(cat => cat.id === parseInt(selectedCategory));
+    const level = levels.find(level => level.id === parseInt(selectedLevel));
     
-
-  ]);
-  const [name, setName] = useState('');
-  const [phone, setphone] = useState('');
-  const [convocation, setconvocation] = useState('');
-  const [date, setdate] = useState('');
-
-  const handleAdd = () => {
-    const newstagiaire = { name,  phone ,convocation ,date };
-    setstagiaires([...stagiaires, newstagiaire]);
-    setName('');
-    setphone('');
-    setconvocation('');
-    setdate('');
-  };
-
-  const handleDelete = (index) => {
-    const newstagiaires = [...stagiaires];
-    newstagiaires.splice(index, 1);
-    setstagiaires(newstagiaires);
-  };
-
-  const handleModify = (index) => {
-    console.log("index",index);
-    const newstagiaires = [...stagiaires];
-    newstagiaires[index] = { name, phone ,convocation ,date };
-    setstagiaires(newstagiaires);
-    setName('');
-    setphone('');
-    setconvocation('');
-    setdate('');
+    axios.post('http://localhost:3001/matiere_add', {
+      category_name: category ? category.name : '',
+      level_name: level ? level.name : '',
+      filiere_id: selectedFiliere,
+      matiere_name: newMatiereName
+    })
+      .then(response => {
+        if (response.status === 200) {
+          alert('Matiere added successfully');
+          setNewMatiereName('');
+          setSelectedCategory('');
+          setSelectedLevel('');
+          setSelectedFiliere('');
+        } else {
+          alert('Error adding matiere');
+        }
+      })
+      .catch(error => {
+        console.error('Error adding matiere:', error);
+        alert('Error adding matiere');
+      });
   };
 
   return (
     <div>
-      <h1>Matiere</h1>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Convocation</th>
-            <th>Period of stage</th>
-
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {stagiaires.map((stagiaire, index) => (
-            <tr key={index}>
-              <td>{stagiaire.name}</td>
-              <td>{stagiaire.phone}</td>
-              <td>{stagiaire.convocation}</td>
-              <td>{stagiaire.date}</td>
-              <td>
-                <Button variant="warning" onClick={() => handleModify(index)}>Modify</Button>
-                <Button variant="danger" onClick={() => handleDelete(index)}>Delete</Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <h1>Add Matiere</h1>
+      <Form>
+        <Row>
+          <Col>
+            <Form.Group controlId="categorySelect">
+              <Form.Label>Category</Form.Label>
+              <Form.Control as="select" value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)}>
+                <option value="">Select a category</option>
+                {categories.map(category => (
+                  <option key={category.id} value={category.id}>
+                    {category}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group controlId="levelSelect">
+              <Form.Label>Level</Form.Label>
+              <Form.Control as="select" value={selectedLevel} onChange={e => setSelectedLevel(e.target.value)} disabled={!selectedCategory}>
+                <option value="">Select a level</option>
+                {levels.map(level => (
+                  <option key={level.id} value={level.id}>
+                    {level}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group controlId="filiereSelect">
+              <Form.Label>Filiere</Form.Label>
+              <Form.Control as="select" value={selectedFiliere} onChange={e => setSelectedFiliere(e.target.value)} disabled={!selectedLevel}>
+                <option value="">Select a filiere</option>
+                {filieres.map(filiere => (
+                  <option key={filiere.id} value={filiere.id}>
+                    {filiere.name}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form.Group controlId="newMatiereName">
+              <Form.Label>Matiere Name</Form.Label>
+              <Form.Control type="text" value={newMatiereName} onChange={e => setNewMatiereName(e.target.value)} disabled={!selectedFiliere} />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Button variant="primary" onClick={handleAddMatiere} disabled={!newMatiereName || !selectedFiliere}>
+          Add Matiere
+        </Button>
+      </Form>
     </div>
   );
-};
+}
 
-export default Matiere;
+export default AddMatiere;
